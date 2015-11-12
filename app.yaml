@@ -1,0 +1,17 @@
+runtime: custom
+vm: true
+api_version: 1
+threadsafe: yes
+
+manual_scaling:
+  instances: 1
+
+vm_settings:
+  machine_type: f1-micro
+
+vm_health_check:
+  enable_health_check: false
+
+handlers:
+- url: .*
+  script: nothing.php

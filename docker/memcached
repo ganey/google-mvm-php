@@ -1,0 +1,78 @@
+#!/bin/bash
+# init script for memcached
+# chkconfig: 2345 70 11
+# description: memcached
+# processname: memcached
+# pidfile: /var/run/memcached.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+PATH=$PATH:/usr/local/bin
+lockfile=/var/lock/subsys/memcached
+logfile=/var/log/memcached
+pidfile=/tmp/memcached.pid
+sockfile=/var/run/memcached.sock
+prog=memcached
+connections=1024
+memcached=/usr/bin/memcached
+user=root
+RETVAL=0
+
+start () {
+
+# find IP address on specific subnet
+ipaddr=`ifconfig | grep "192\.168\.0" | awk '{print $2}' | cut -d : -f 2`
+
+size=64 # total cache size in MB
+port=11211 # port number to run on
+user=nobody # run as user
+opts="-d -m $size -c $connections -s $sockfile -u $user"
+
+echo -n $"Starting $prog: "
+daemon $memcached $opts
+RETVAL=$?
+echo
+[ $RETVAL = 0 ] && touch ${lockfile}
+return $RETVAL
+}
+
+stop () {
+echo -n $"Stopping $prog: "
+killproc memcached
+RETVAL=$?
+echo
+[ $RETVAL = 0 ] && rm -f /var/lock/subsys/memcached /var/run/memcached.pid
+}
+
+status () {
+psline1=`ps auxwww|grep -P "^USER"|grep -v grep`
+psline2=`ps auxwww|grep -P "^www\ .*memcached"|grep -v grep`
+if [[ -z $psline2 ]];then
+echo "memcached is not running"
+else
+echo "$psline1
+$psline2"
+fi
+}
+
+# See how we were called.
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+status)
+status
+;;
+restart)
+stop
+sleep 1
+start
+;;
+*)
+echo $"Usage: `basename $0` {start|stop|restart|status}"
+exit 2
+esac
