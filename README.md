@@ -20,7 +20,7 @@ This VM has only had basic testing for vulnerabilities, if you find any issues, 
 In your Dockerfile add:
 
 ~~~~
-use ganey/google-mvm-php
+FROM ganey/google-mvm-php
 
 ADD . /var/www
 ~~~~
