@@ -15,6 +15,15 @@ RUN ["yum", "-y", "install", "nginx", "php56w", "php56w-common", "php56w-fpm", "
 #install opcache
 RUN yum install -y php-opcache
 
+#install git
+RUN yum install -y git
+
+#install nano
+RUN yum install -y nano vim
+
+#fix nano
+RUN echo "export TERM=xterm" >> /root/.bashrc
+
 # Create folder for server and add index.php file to for nginx
 RUN mkdir -p /var/www/public && chmod a+r /var/www/public && echo "<?php phpinfo(); ?>" > /var/www/public/index.php
 
