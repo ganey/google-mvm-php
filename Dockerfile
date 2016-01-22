@@ -5,7 +5,7 @@ FROM centos:centos6.7
 RUN yum update -y >/dev/null; yum install -y http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm; yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/supervisor-2.1-9.el6.noarch.rpm; rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
 
 #install nginx, php, opcache, git, nano, vim, memcached, supervisor
-RUN ["yum", "-y", "install", "nginx", "php56w", "php56w-common", "php56w-fpm", "php56w-mcrypt", "php56w-curl", "php56w-mysql", "php56w-sqlite", "php56w-pdo", "php56w-devel", "php56w-gd", "php56w-pecl-memcached", "php56w-pecl-memcache", "php56w-pspell", "php56w-snmp", "php56w-xmlrpc", "php56w-xml", "php-opcache", "git", "nano", "vim", "memcached", "supervisor"]
+RUN ["yum", "-y", "install", "nginx", "php56w", "php56w-common", "php56w-fpm", "php56w-mcrypt", "php56w-mbstring", "php56w-curl", "php56w-mysql", "php56w-sqlite", "php56w-pdo", "php56w-devel", "php56w-gd", "php56w-pecl-memcached", "php56w-pecl-memcache", "php56w-pspell", "php56w-snmp", "php56w-xmlrpc", "php56w-xml", "php-opcache", "git", "nano", "vim", "memcached", "supervisor"]
 
 #fix nano
 RUN echo "export TERM=xterm" >> /root/.bashrc
